@@ -1,24 +1,29 @@
 import React from 'react';
-import logo from './logo.svg';
+import { CustomProvider } from 'rsuite';
 import './App.css';
+import { CurrentOrderItem } from './FrontEnd/CurrentOrder/CurrentOrderItem';
+import { CurrentOrderList } from './FrontEnd/CurrentOrder/CurrentOrderList';
+import { NavigatorBar } from './FrontEnd/NavBar/NavigatorBar';
+import { OrderRecordsItem } from './FrontEnd/OrderRecords/OrderRecordsItem';
+import { OrderRecordsList } from './FrontEnd/OrderRecords/OrderRecordsList';
+import { PorductList } from './FrontEnd/Product/PorductList';
+import { ProductItem } from './FrontEnd/Product/ProductItem';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <CustomProvider theme='dark'>
+     <NavigatorBar/>
+     <PorductList>
+        <ProductItem/>
+     </PorductList>
+     <CurrentOrderList>
+        <CurrentOrderItem/>
+     </CurrentOrderList>
+     <OrderRecordsList>
+        <OrderRecordsItem/>
+     </OrderRecordsList>
+     </CustomProvider>
     </div>
   );
 }
