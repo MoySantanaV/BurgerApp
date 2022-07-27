@@ -8,7 +8,7 @@ const NavigatorBar = ({ onSelect, activeKey}:NavProps) => {
       
   return (
     <Navbar>
-    <Navbar.Brand >BURGER APP</Navbar.Brand>
+    <Navbar.Brand> <Link to="/">BURGER APP</Link></Navbar.Brand>
     <Nav onSelect={onSelect} activeKey={activeKey}>
       <Nav.Item eventKey="1"><Link to="products">Products</Link> </Nav.Item>
       <Nav.Item eventKey="2"><Link to="currentorders">CurrentOrders</Link></Nav.Item>
