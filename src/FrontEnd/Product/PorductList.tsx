@@ -1,52 +1,106 @@
-import React from 'react'
-import { Button, ButtonToolbar, FlexboxGrid, Grid, Input } from 'rsuite';
+import { useState } from 'react'
+import { Button, ButtonToolbar, FlexboxGrid, Grid, Input, Modal, Form } from 'rsuite';
+import { Product } from '../../App/entity';
+import { useAppSelector, useAppDispatch } from '../../App/hooks'
 import { ProductItem } from './ProductItem';
+import { addProduct, deleteProduct, editProduct } from '../../Redux/Products';
+import { v4 as uuid } from 'uuid';
+
 
 const PorductList = ({ children }: any) => {
 
-  function onClear(): void {
-    console.log('Order Clean')
+  const products = useAppSelector((state) => state.products)
+  const [newProduct, setNewProduct] = useState<Partial<Product>>({})
+  const [open, setOpen] = useState(false);
+  const handleOpen = (product?: Product) => {
+    if (product) {
+      setNewProduct(product)
+    }
+    setOpen(true);
+  }
+  const handleClose = () => setOpen(false);
+
+  const dispatch = useAppDispatch()
+
+  const handleChange = (value: Partial<Product>): void => {
+    setNewProduct(value)
+
   }
 
-  function onCreateOrder(): void {
-    console.log('Order Created')
-  }
-  const products = [
-  { id: 1, name: "Double Cheese Burger", price: 90 },
-  { id: 2, name: "Bacon Burger", price: 110 },
-  { id: 3, name: "Hawaian Burger", price: 115 },
-  { id: 4, name: "Chicken Burger", price: 90 },
-  { id: 5, name: "Wings 8pcs", price: 80 },
-  { id: 6, name: "Wings 16pcs", price: 160 },
-  { id: 7, name: "Potato Chips", price: 45 },
-  { id: 8, name: "Soda", price: 15 },
-  ]
+  const handleSubmit = (id?: string): void => {
+    if (id) {
+      dispatch(editProduct(newProduct))
 
+    } else {
+      dispatch(addProduct({
+        ...newProduct,
+        id: uuid(),
+      }))
+    }
+  }
+
+  const handleDelete = (id: any): void => {
+    dispatch(deleteProduct(id))
+  }
 
   return (
     <Grid >
       <div>
-        <h3>Products</h3>
+        <h3>Products Manager</h3>
         <FlexboxGrid justify="center">
-          <Input style={{ width: 1000 }} type="text" placeholder="Order For" />
+
           {products && products.map((product, index) => (
             <div className='' key={index}>
-              <ProductItem key={product.id} product={product} />
+              <ProductItem key={product.id} product={product} handleDelete={handleDelete} handleOpen={handleOpen} />
             </div>
           ))}
+
         </FlexboxGrid>
       </div >
 
       <FlexboxGrid justify="end" style={{ marginTop: 20 }}>
         <ButtonToolbar  >
-          <Button color="orange" appearance="subtle" onClick={onClear}>Clear</Button>
-          <Button color="orange" appearance="subtle" onClick={onCreateOrder}>Create Order</Button>
+{/*           <Button color="orange" appearance="primary" onClick={onClear}>Clear</Button>
+          <Button color="orange" appearance="primary" onClick={onCreateOrder}>Create Order</Button> */}
+          <Button color="orange" appearance="primary" onClick={() => handleOpen()}>Add New Product</Button>
         </ButtonToolbar>
       </FlexboxGrid>
+
+      <div className="modal-container">
+        <Modal backdrop={'static'} open={open} onClose={handleClose}>
+          <Modal.Header>
+            <Modal.Title>{!newProduct.id ? 'Add New Product' : "Editing Product"}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form formValue={newProduct} onChange={handleChange}>
+              <Form.Group controlId="name">
+                <Form.ControlLabel>Product Name</Form.ControlLabel>
+                <Form.Control name="name" />
+                <Form.HelpText tooltip>Product name is required</Form.HelpText>
+              </Form.Group>
+              <Form.Group controlId="price">
+                <Form.ControlLabel>Product Price</Form.ControlLabel>
+                <Form.Control name="price" type="number" min={0} />
+                <Form.HelpText tooltip>Product price is required</Form.HelpText>
+              </Form.Group>
+              <Form.Group>
+                <ButtonToolbar>
+                  <Button color="orange" appearance="primary" onClick={() => handleSubmit(newProduct.id)}>Submit</Button>
+                  <Button color="orange" appearance="default" onClick={handleClose}>Cancel</Button>
+                </ButtonToolbar>
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+        </Modal>
+      </div>
     </Grid>
+
+
 
   );
 
 }
 
 export { PorductList }
+
+
