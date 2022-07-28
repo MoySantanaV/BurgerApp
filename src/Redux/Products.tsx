@@ -59,7 +59,7 @@ export const productSlice = createSlice({
  
             }
         },
-        clearOrder: (state) =>{
+        clearRequestOrder: (state) =>{
                 state.forEach((product:productsState)=>{
                 product.count = 0
               })
@@ -70,5 +70,5 @@ export const productSlice = createSlice({
     }
 })
 
-export const { addProduct, deleteProduct, editProduct, incrementCount, decrementCount, clearOrder } = productSlice.actions
+export const { addProduct, deleteProduct, editProduct, incrementCount, decrementCount, clearRequestOrder } = productSlice.actions
 export default productSlice.reducer

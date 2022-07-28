@@ -1,14 +1,12 @@
 import { FlexboxGrid, Grid } from 'rsuite'
-import { useAppSelector, useAppDispatch } from '../../App/hooks'
+import { useAppSelector,  } from '../../App/hooks'
 import { CurrentOrderItem } from './CurrentOrderItem'
-import { v4 as uuid } from 'uuid';
+
 
 
 
 const CurrentOrderList = ({ children }: any) => {
   const orders = useAppSelector((state)=>state.orders)
-  const products = useAppSelector((state) => state.products)
-  
 
 
   return (

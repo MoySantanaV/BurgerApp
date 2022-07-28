@@ -18,14 +18,9 @@ export const orderSlice = createSlice({
     name: "orders",
     initialState,
     reducers: {
-        addOrder: (state, { payload: { clientName, products } }) => {
-
-            state.push({
-                idOrder: "2",
-                productsOrdered: products,
-                clientName: clientName,
-                isComplete: false
-            })
+        addOrder: (state, action) => {
+            
+            state.push(action.payload)
 
         },
         deleteOrder:(state,action) =>{

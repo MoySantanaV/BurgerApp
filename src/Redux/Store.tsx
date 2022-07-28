@@ -1,12 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
 import productReducer from './Products'
 import orderReducer from './Orders'
+import recordReducer from './Records'
+
 
 
 const store = configureStore({
     reducer: {
         products: productReducer,
         orders: orderReducer,
+        records: recordReducer,
+
     }
 })
 

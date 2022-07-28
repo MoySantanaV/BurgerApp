@@ -1,12 +1,14 @@
+import { Grid } from "rsuite"
+import { OrderRecordsItem } from "./OrderRecordsItem"
 
 const OrderRecordsList = ({ children }: any) => {
 
   return (
     <div>
-      <div>
+      <Grid className="show-grid">
         <h3 style={{marginTop:50}}>Order Records</h3>
-        {children}
-      </div>
+        <OrderRecordsItem/>
+      </Grid>
       
 
     </div>

@@ -1,34 +1,40 @@
 import React, { useState } from 'react'
 import { useAppSelector, useAppDispatch } from '../../App/hooks'
-import { Button, ButtonToolbar, FlexboxGrid, Form, Grid, Input, Panel } from 'rsuite'
-import { incrementCount, decrementCount, clearOrder } from '../../Redux/Products';
+import { Button, ButtonToolbar, FlexboxGrid, Form, Grid, Panel } from 'rsuite'
+import { incrementCount, decrementCount, clearRequestOrder } from '../../Redux/Products';
 import { CurrentOrderList } from '../CurrentOrder/CurrentOrderList';
 import { addOrder } from '../../Redux/Orders';
 import FormControl from 'rsuite/esm/FormControl';
+import { v4 as uuid } from 'uuid';
+import { OrderRecordsItem } from '../OrderRecords/OrderRecordsItem';
+import { OrderRecordsList } from '../OrderRecords/OrderRecordsList';
 
 
 const Welcome = () => {
-  const [newOrder, setNewOrder] = useState<any>({clientName:""})
+  const [newOrder, setNewOrder] = useState<any>({ clientName: "" })
   const products = useAppSelector((state) => state.products)
   const dispatch = useAppDispatch()
 
-  const handleChange = (value: Record<string, {clientName:string}>) => {
+  const handleChange = (value: Record<string, { clientName: string }>) => {
     setNewOrder(value)
-    
+
   }
 
   const onClear = () => {
-    dispatch(clearOrder())
-    setNewOrder({clientName:""})
+    dispatch(clearRequestOrder())
+    setNewOrder({ clientName: "" })
   }
 
   const handleSubmit = () => {
     dispatch(addOrder({
-      ...products,
+      idOrder: uuid(),
+      productsOrdered: products,
       clientName: newOrder.clientName,
+      isComplete: false
+
     }))
-    dispatch(clearOrder())
-    setNewOrder({clientName:""})
+    dispatch(clearRequestOrder())
+    setNewOrder({ clientName: "" })
 
   }
 
@@ -37,7 +43,7 @@ const Welcome = () => {
       <h1>Welcome</h1>
       <h4>Burger App</h4>
       <Grid>
-        <Form formValue={newOrder} onChange={(clientName: Record<string, {clientName:string}>)=>handleChange(clientName)}>
+        <Form formValue={newOrder} onChange={(clientName: Record<string, { clientName: string }>) => handleChange(clientName)}>
           <FlexboxGrid>
             <Form.Group controlId="clientName">
               <FormControl style={{ width: 1000, marginTop: 50 }} name="clientName" type="text" placeholder="Order For" />
@@ -73,6 +79,8 @@ const Welcome = () => {
         </FlexboxGrid>
 
         <CurrentOrderList style={{ marginBottom: 100 }} />
+
+        <OrderRecordsList/>
       </Grid>
     </>
 

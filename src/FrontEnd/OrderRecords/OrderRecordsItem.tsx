@@ -1,42 +1,37 @@
 import React from 'react'
 import { FlexboxGrid, Grid } from 'rsuite'
 import { Table, Column, HeaderCell, Cell } from 'rsuite-table'
+import { useAppSelector } from '../../App/hooks'
+
 
 const OrderRecordsItem = () => {
 
-  const data = [
-    { id: 1, name: "Double Cheese Burger", price: 90 },
-    { id: 2, name: "Bacon Burger", price: 110 },
-    { id: 3, name: "Hawaian Burger", price: 115 },
-    { id: 4, name: "Chicken Burger", price: 90 },
-    { id: 5, name: "Wings 8pcs", price: 80 },
-    { id: 6, name: "Wings 16pcs", price: 160 },
-    { id: 7, name: "Potato Chips", price: 45 },
-    { id: 8, name: "Soda", price: 15 },
-  ]
+const records = useAppSelector((state)=> state.records)
+
+
   return (
     <Grid className="show-grid">
     <Table
       style={{marginTop:20, marginBottom: 50}}
-      height={400}
-      data={data}
-      onRowClick={data => {
-        console.log(data);
+      height={600}
+      data={records}
+      onRowClick={records => {
+        console.log(records);
       }}
     >
-      <Column width={70} align="center" >
+      <Column width={300} align="center" >
         <HeaderCell>Id</HeaderCell>
-        <Cell dataKey="id" />
+        <Cell dataKey="idRecord" />
       </Column>
 
-      <Column width={100} >
+      <Column width={90} >
         <HeaderCell>Date</HeaderCell>
-        <Cell dataKey="date" />
+        <Cell dataKey="Date" />
       </Column>
 
       <Column width={680}>
-        <HeaderCell>name</HeaderCell>
-        <Cell dataKey="name" />
+        <HeaderCell>Products</HeaderCell>
+        <Cell dataKey="ordersRecorded" />
       </Column>
 
       <Column width={100}>
@@ -46,7 +41,7 @@ const OrderRecordsItem = () => {
 
     </Table>
     <FlexboxGrid justify="end" style={{marginBottom:50}}>
-    <p>{`Total: ${data.map(item => item.price).reduce((acc: number,current: number) => acc + current)}`}</p>
+    <h5>{`Total: ${records.map(item => item.price).reduce((acc: number,current: number) => acc + current,0)}`}</h5>
     </FlexboxGrid>
     </Grid>
 

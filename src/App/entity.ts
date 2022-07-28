@@ -23,3 +23,10 @@ export interface orderState {
     orders: Order[]
 }
 
+export interface Record {
+    idRecord: string,
+    date: number
+    ordersRecorded: string[],
+    price: number
+}
+
