@@ -7,7 +7,6 @@ import { OrderRecordsList } from './FrontEnd/OrderRecords/OrderRecordsList';
 import { PorductList } from './FrontEnd/Product/PorductList';
 import {NotFoundPage} from "./FrontEnd/NotFount/NotFoundPage";
 import { Welcome } from "./FrontEnd/Index/Welcome";
-import { Menu } from "./FrontEnd/Product/Menu";
 import './App.css';
 
 

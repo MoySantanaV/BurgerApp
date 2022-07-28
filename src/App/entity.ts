@@ -2,16 +2,16 @@ export interface Product {
     id: string,
     name: string,
     price: number,
+    count: number
 
 
 }
 
 export interface Order {
-    id: number,
+    idOrder: string,
     clientName: string,
-    products: Product[],
-    price: number,
-    complete: boolean
+    productsOrdered: Product[],
+    isComplete: boolean
 }
 
 export interface CurrentOrderState {

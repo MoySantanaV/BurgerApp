@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, ButtonToolbar, FlexboxGrid, Grid, Input, Modal, Form } from 'rsuite';
+import { Button, ButtonToolbar, FlexboxGrid, Grid, Modal, Form } from 'rsuite';
 import { Product } from '../../App/entity';
 import { useAppSelector, useAppDispatch } from '../../App/hooks'
 import { ProductItem } from './ProductItem';
@@ -12,13 +12,18 @@ const PorductList = ({ children }: any) => {
   const products = useAppSelector((state) => state.products)
   const [newProduct, setNewProduct] = useState<Partial<Product>>({})
   const [open, setOpen] = useState(false);
+
   const handleOpen = (product?: Product) => {
     if (product) {
       setNewProduct(product)
     }
     setOpen(true);
   }
-  const handleClose = () => setOpen(false);
+
+  const handleClose = () => {
+    setOpen(false)
+    setNewProduct({id:"",name:"", price:0})
+  };
 
   const dispatch = useAppDispatch()
 
@@ -30,13 +35,17 @@ const PorductList = ({ children }: any) => {
   const handleSubmit = (id?: string): void => {
     if (id) {
       dispatch(editProduct(newProduct))
-
+      
     } else {
       dispatch(addProduct({
         ...newProduct,
         id: uuid(),
+        count: 0
       }))
     }
+    
+    setNewProduct({id:"",name:"", price:0})
+    setOpen(false) 
   }
 
   const handleDelete = (id: any): void => {
@@ -47,21 +56,17 @@ const PorductList = ({ children }: any) => {
     <Grid >
       <div>
         <h3>Products Manager</h3>
-        <FlexboxGrid justify="center">
-
+        <FlexboxGrid >
           {products && products.map((product, index) => (
             <div className='' key={index}>
               <ProductItem key={product.id} product={product} handleDelete={handleDelete} handleOpen={handleOpen} />
             </div>
           ))}
-
         </FlexboxGrid>
       </div >
 
       <FlexboxGrid justify="end" style={{ marginTop: 20 }}>
         <ButtonToolbar  >
-{/*           <Button color="orange" appearance="primary" onClick={onClear}>Clear</Button>
-          <Button color="orange" appearance="primary" onClick={onCreateOrder}>Create Order</Button> */}
           <Button color="orange" appearance="primary" onClick={() => handleOpen()}>Add New Product</Button>
         </ButtonToolbar>
       </FlexboxGrid>
@@ -69,7 +74,7 @@ const PorductList = ({ children }: any) => {
       <div className="modal-container">
         <Modal backdrop={'static'} open={open} onClose={handleClose}>
           <Modal.Header>
-            <Modal.Title>{!newProduct.id ? 'Add New Product' : "Editing Product"}</Modal.Title>
+            <Modal.Title>{!newProduct.id ? 'Adding New Product' : "Editing Product"}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form formValue={newProduct} onChange={handleChange}>

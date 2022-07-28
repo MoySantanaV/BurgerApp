@@ -1,25 +1,27 @@
 import { FlexboxGrid, Grid } from 'rsuite'
+import { useAppSelector, useAppDispatch } from '../../App/hooks'
 import { CurrentOrderItem } from './CurrentOrderItem'
+import { v4 as uuid } from 'uuid';
 
 
 
 const CurrentOrderList = ({ children }: any) => {
+  const orders = useAppSelector((state)=>state.orders)
+  const products = useAppSelector((state) => state.products)
+  
 
-  const orders:any = [{id:0 , customerName: 'John', productsOrdered: [{idProductOrdered:0, productOrderedName:'Double Cheese Burger'},{idProductOrdered:1, productOrderedName:'Bacon Burger'}], prices:[90,100]},
-                      {id:1 , customerName: 'Moises', productsOrdered: [{idProductOrdered:0, productOrderedName:'Potato Chips'},{idProductOrdered:1, productOrderedName:'Soda'}], prices:[45,15]}]
-  const total: number[] = orders.map( (order: { prices: number[] }) => order.prices.reduce((accumulator: number, current: number):number => accumulator + current ))
-  const orderedProducts: string[] = orders.map((order:{productsOrdered: any }) => order.productsOrdered.map((product: { productOrderedName: string[], idProductOrdered: any }) => <ul key={product.idProductOrdered}>{product.productOrderedName}</ul> ) )
 
   return (
-    <Grid className="show-grid">
+    <Grid >
+      <div>
           <h3 style={{marginTop:30}}>Current Order</h3>
-      <FlexboxGrid>
-          {orders && orders.map((order: { id: number, customerName: string }, index: number) => (
+      <FlexboxGrid justify="center">
+          {orders && orders.map((order,index) => (
           <div key={index}>
-            <CurrentOrderItem key={order.id} customerName={order.customerName} total={total} orderedProducts={orderedProducts} />
+            <CurrentOrderItem key={order.idOrder} order={order} />
           </div>))}
-
       </FlexboxGrid>
+      </div>
     </Grid>
   )
 }
