@@ -8,10 +8,11 @@ import FormControl from 'rsuite/esm/FormControl';
 import { v4 as uuid } from 'uuid';
 import { OrderRecordsItem } from '../OrderRecords/OrderRecordsItem';
 import { OrderRecordsList } from '../OrderRecords/OrderRecordsList';
+import { Product } from '../../App/entity';
 
 
 const Welcome = () => {
-  const [newOrder, setNewOrder] = useState<any>({ clientName: "" })
+  const [newOrder, setNewOrder] = useState<any>({})
   const products = useAppSelector((state) => state.products)
   const dispatch = useAppDispatch()
 
@@ -25,7 +26,15 @@ const Welcome = () => {
     setNewOrder({ clientName: "" })
   }
 
+  const isValidCount = (products: any[]) =>{
+    let countIsValid = 0 
+    products.forEach(({count})=> count > 0 ? countIsValid++ : countIsValid )
+    return countIsValid > 0 ? true : false
+  }
+
   const handleSubmit = () => {
+    if(Object.keys(newOrder).length <= 0)return
+    if(!isValidCount(products))return
     dispatch(addOrder({
       idOrder: uuid(),
       productsOrdered: products,

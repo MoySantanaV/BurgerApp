@@ -22,7 +22,7 @@ const PorductList = ({ children }: any) => {
 
   const handleClose = () => {
     setOpen(false)
-    setNewProduct({id:"",name:"", price:0})
+    setNewProduct({})
   };
 
   const dispatch = useAppDispatch()
@@ -33,6 +33,7 @@ const PorductList = ({ children }: any) => {
   }
 
   const handleSubmit = (id?: string): void => {
+    if(Object.keys(newProduct).length <= 0)return
     if (id) {
       dispatch(editProduct(newProduct))
       
@@ -44,7 +45,7 @@ const PorductList = ({ children }: any) => {
       }))
     }
     
-    setNewProduct({id:"",name:"", price:0})
+    setNewProduct({_id:"",name:"", price:0})
     setOpen(false) 
   }
 
@@ -74,7 +75,7 @@ const PorductList = ({ children }: any) => {
       <div className="modal-container">
         <Modal backdrop={'static'} open={open} onClose={handleClose}>
           <Modal.Header>
-            <Modal.Title>{!newProduct.id ? 'Adding New Product' : "Editing Product"}</Modal.Title>
+            <Modal.Title>{!newProduct._id ? 'Adding New Product' : "Editing Product"}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form formValue={newProduct} onChange={handleChange}>
@@ -90,7 +91,7 @@ const PorductList = ({ children }: any) => {
               </Form.Group>
               <Form.Group>
                 <ButtonToolbar>
-                  <Button color="orange" appearance="primary" onClick={() => handleSubmit(newProduct.id)}>Submit</Button>
+                  <Button color="orange" appearance="primary" onClick={() => handleSubmit(newProduct._id)}>Submit</Button>
                   <Button color="orange" appearance="default" onClick={handleClose}>Cancel</Button>
                 </ButtonToolbar>
               </Form.Group>

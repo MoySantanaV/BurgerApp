@@ -1,5 +1,5 @@
 export interface Product {
-    id: string,
+    _id: string,
     name: string,
     price: number,
     count: number
@@ -8,7 +8,7 @@ export interface Product {
 }
 
 export interface Order {
-    idOrder: string,
+    _id: string,
     clientName: string,
     productsOrdered: Product[],
     isComplete: boolean

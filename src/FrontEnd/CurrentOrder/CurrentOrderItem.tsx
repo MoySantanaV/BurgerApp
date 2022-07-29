@@ -21,11 +21,11 @@ const CurrentOrderItem = ({ order }: any) => {
     dispatch(deleteOrder(id))
   }
   const handleComplete= (id:number) =>{
-    const productsOnCurrentOrder =productsOrdered.filter((ele: Product)=> ele.count > 0 ).map((product: Product) => product.name)
 
+    const productsOnCurrentOrder =productsOrdered.filter((ele: Product)=> ele.count > 0 ).map((product: Product) => product.name)
     const total = productsOrdered.reduce((total: number, order:Product)=> total + (order.price * order.count),0)
 
-    console.log(productsOnCurrentOrder)
+
     dispatch(completeOrders({
       idRecord: order.idOrder,
       Date: gettingDate(),
@@ -34,6 +34,7 @@ const CurrentOrderItem = ({ order }: any) => {
       
     }))
 
+    dispatch(deleteOrder(id))
     
 
   }
@@ -58,10 +59,10 @@ const CurrentOrderItem = ({ order }: any) => {
       <Panel header={`${clientName}'s Order`}>
         {productsOrdered &&
           // eslint-disable-next-line array-callback-return
-          productsOrdered.map(({id, name, count}: Product) => {
+          productsOrdered.map(({_id, name, count}: Product) => {
 
             if(count > 0){
-              return <p key={id}>{`(${count}) ${name}`} </p> 
+              return <p key={_id}>{`(${count}) ${name}`} </p> 
             }
           }
                           
