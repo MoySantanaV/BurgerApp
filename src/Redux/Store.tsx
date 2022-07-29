@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import productReducer from './Products'
-import orderReducer from './Orders'
-import recordReducer from './Records'
+import productReducer from './Products/Products'
+import orderReducer from './Orders/Orders'
+import recordReducer from './Records/Records'
 
 
 

@@ -24,7 +24,7 @@ export interface orderState {
 }
 
 export interface Record {
-    idRecord: string,
+    _id: string,
     date: number
     ordersRecorded: string[],
     price: number

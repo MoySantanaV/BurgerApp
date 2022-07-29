@@ -1,19 +1,18 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useAppSelector, useAppDispatch } from '../../App/hooks'
 import { Button, ButtonToolbar, FlexboxGrid, Form, Grid, Panel } from 'rsuite'
-import { incrementCount, decrementCount, clearRequestOrder } from '../../Redux/Products';
+import { incrementCount, decrementCount, clearRequestOrder } from '../../Redux/Products/Products';
 import { CurrentOrderList } from '../CurrentOrder/CurrentOrderList';
-import { addOrder } from '../../Redux/Orders';
+import { addOrder } from '../../Redux/Orders/Orders';
 import FormControl from 'rsuite/esm/FormControl';
 import { v4 as uuid } from 'uuid';
-import { OrderRecordsItem } from '../OrderRecords/OrderRecordsItem';
 import { OrderRecordsList } from '../OrderRecords/OrderRecordsList';
 import { Product } from '../../App/entity';
 
 
 const Welcome = () => {
-  const [newOrder, setNewOrder] = useState<any>({})
-  const products = useAppSelector((state) => state.products)
+  const [newOrder, setNewOrder] = useState<any>({ clientName: "" })
+  const products: Product[] = useAppSelector(({products}) => products.products)
   const dispatch = useAppDispatch()
 
   const handleChange = (value: Record<string, { clientName: string }>) => {
@@ -60,18 +59,18 @@ const Welcome = () => {
           </FlexboxGrid>
         </Form>
         <FlexboxGrid justify="center">
-          {products && products.map((product, index) => (
-            <div className='' key={index}>
+          {products && products.map((product, ) => (
+            <div className='' key={product._id}>
               <Panel shaded bordered bodyFill style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20, marginLeft: 20, display: 'flex', width: 210, height: 220 }}>
                 <Panel header={`${product.name}`}>
                   <p>{product.price}</p>
                 </Panel>
                 <ButtonToolbar>
-                  <Button appearance='subtle' disabled={product.count <= 0 ? true : false} onClick={() => dispatch(decrementCount(product.id))}>-</Button>
+                  <Button appearance='subtle' disabled={product.count <= 0 ? true : false} onClick={() => dispatch(decrementCount(product._id))}>-</Button>
 
                   <small> {product.count} </small>
 
-                  <Button appearance='subtle' onClick={() => dispatch(incrementCount(product.id))}>+</Button>
+                  <Button appearance='subtle' onClick={() => dispatch(incrementCount(product._id))}>+</Button>
                 </ButtonToolbar>
               </Panel>
             </div>

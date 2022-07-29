@@ -3,8 +3,8 @@ import { Panel, ButtonToolbar, Button } from 'rsuite';
 import 'rsuite/dist/rsuite.min.css';
 import { Product } from '../../App/entity';
 import { useAppDispatch } from '../../App/hooks';
-import { deleteOrder } from '../../Redux/Orders';
-import { completeOrders } from '../../Redux/Records';
+import { deleteOrder } from '../../Redux/Orders/Orders';
+import { completeOrders } from '../../Redux/Records/Records';
 
 const CurrentOrderItem = ({ order }: any) => {
   const { clientName, productsOrdered } = order;

@@ -1,12 +1,19 @@
-import React from 'react'
+import { useEffect } from 'react'
 import { FlexboxGrid, Grid } from 'rsuite'
 import { Table, Column, HeaderCell, Cell } from 'rsuite-table'
-import { useAppSelector } from '../../App/hooks'
+import { useAppDispatch, useAppSelector } from '../../App/hooks'
+import { initRecords } from '../../Redux/Records/RecordsReducer'
 
 
 const OrderRecordsItem = () => {
 
-const records = useAppSelector((state)=> state.records)
+const records = useAppSelector(({records})=> records.records)
+const dispatch = useAppDispatch()
+
+useEffect(()=>{
+  dispatch(initRecords())
+  console.log(records)
+},[])
 
 
   return (
@@ -21,7 +28,7 @@ const records = useAppSelector((state)=> state.records)
     >
       <Column width={300} align="center" >
         <HeaderCell>Id</HeaderCell>
-        <Cell dataKey="idRecord" />
+        <Cell dataKey="_id" />
       </Column>
 
       <Column width={90} >

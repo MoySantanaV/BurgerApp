@@ -1,22 +1,27 @@
+import { useEffect } from 'react'
 import { FlexboxGrid, Grid } from 'rsuite'
-import { useAppSelector,  } from '../../App/hooks'
+import { useAppDispatch, useAppSelector,  } from '../../App/hooks'
+import { initOrders } from '../../Redux/Orders/OrdersReducer'
 import { CurrentOrderItem } from './CurrentOrderItem'
 
 
 
-
 const CurrentOrderList = ({ children }: any) => {
-  const orders = useAppSelector((state)=>state.orders)
+  const orders = useAppSelector(({orders})=>orders.orders)
+  const dispatch = useAppDispatch()
 
+  useEffect(()=>{
+    dispatch(initOrders())
+  },[])
 
   return (
     <Grid >
       <div>
           <h3 style={{marginTop:30}}>Current Order</h3>
       <FlexboxGrid justify="center">
-          {orders && orders.map((order,index) => (
-          <div key={index}>
-            <CurrentOrderItem key={order.idOrder} order={order} />
+          {orders && orders.map((order) => (
+          <div key={order._id}>
+            <CurrentOrderItem key={order._id} order={order} />
           </div>))}
       </FlexboxGrid>
       </div>

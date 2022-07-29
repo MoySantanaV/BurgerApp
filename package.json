@@ -11,6 +11,7 @@
     "@types/node": "^16.11.45",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
+    "axios": "^0.27.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.2",
@@ -49,5 +50,13 @@
   },
   "devDependencies": {
     "@types/uuid": "^8.3.4"
-  }
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://git.epam.com/moises_santana/burgerapp.git"
+  },
+  "author": "Moises Santana Velasco",
+  "license": "ISC"
 }

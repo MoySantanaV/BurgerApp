@@ -2,8 +2,8 @@ import axios, { AxiosResponse } from 'axios'
 
 const url = 'http://localhost:4000/api'
 
-export const getAllProducts =async () => {
-    const {data}:AxiosResponse = await axios({
+export const getAllProducts = async () => {
+    const { data }: AxiosResponse = await axios({
         url: `${url}/getAllProducts`,
         method: 'GET'
     })
@@ -11,8 +11,8 @@ export const getAllProducts =async () => {
     return data
 }
 
-export const getAllOrders =async () => {
-    const {data}:AxiosResponse = await axios({
+export const getAllOrders = async () => {
+    const { data }: AxiosResponse = await axios({
         url: `${url}/getAllOrders`,
         method: 'GET'
     })
@@ -20,11 +20,17 @@ export const getAllOrders =async () => {
     return data
 }
 
-export const getAllRecords =async () => {
-    const {data}:AxiosResponse = await axios({
+export const getAllRecords = async () => {
+    const { data }: AxiosResponse = await axios({
         url: `${url}/getAllRecords`,
         method: 'GET'
     })
-
-    return data
+    const mapper = (data:any) => {
+        const orderRecorded = data.orderRecorded.map((item: any) => item.name);
+        return {
+            ...data,
+            orderRecorded
+        }
+    }
+    return mapper(data)
 }

@@ -1,17 +1,24 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button, ButtonToolbar, FlexboxGrid, Grid, Modal, Form } from 'rsuite';
 import { Product } from '../../App/entity';
 import { useAppSelector, useAppDispatch } from '../../App/hooks'
 import { ProductItem } from './ProductItem';
-import { addProduct, deleteProduct, editProduct } from '../../Redux/Products';
+/* import { addProduct, deleteProduct, editProduct } from '../../Redux/Products/Products'; */
 import { v4 as uuid } from 'uuid';
+import { initProducts } from '../../Redux/Products/ProductReducer';
 
 
 const PorductList = ({ children }: any) => {
 
-  const products = useAppSelector((state) => state.products)
+  const products: Product[] = useAppSelector(({products}) => products.products)
   const [newProduct, setNewProduct] = useState<Partial<Product>>({})
   const [open, setOpen] = useState(false);
+  const dispatch = useAppDispatch()
+
+
+  useEffect(()=>{
+    dispatch(initProducts())
+  },[])
 
   const handleOpen = (product?: Product) => {
     if (product) {
@@ -25,8 +32,6 @@ const PorductList = ({ children }: any) => {
     setNewProduct({})
   };
 
-  const dispatch = useAppDispatch()
-
   const handleChange = (value: Partial<Product>): void => {
     setNewProduct(value)
 
@@ -35,14 +40,14 @@ const PorductList = ({ children }: any) => {
   const handleSubmit = (id?: string): void => {
     if(Object.keys(newProduct).length <= 0)return
     if (id) {
-      dispatch(editProduct(newProduct))
-      
+/*       dispatch(editProduct(newProduct))
+ */      
     } else {
-      dispatch(addProduct({
+/*       dispatch(addProduct({
         ...newProduct,
         id: uuid(),
         count: 0
-      }))
+      })) */
     }
     
     setNewProduct({_id:"",name:"", price:0})
@@ -50,7 +55,7 @@ const PorductList = ({ children }: any) => {
   }
 
   const handleDelete = (id: any): void => {
-    dispatch(deleteProduct(id))
+/*     dispatch(deleteProduct(id)) */
   }
 
   return (
@@ -58,9 +63,9 @@ const PorductList = ({ children }: any) => {
       <div>
         <h3>Products Manager</h3>
         <FlexboxGrid >
-          {products && products.map((product, index) => (
-            <div className='' key={index}>
-              <ProductItem key={product.id} product={product} handleDelete={handleDelete} handleOpen={handleOpen} />
+          {products && products.map((product) => (
+            <div className='' key={product._id}>
+              <ProductItem key={product._id} product={product} handleDelete={handleDelete} handleOpen={handleOpen} />
             </div>
           ))}
         </FlexboxGrid>
