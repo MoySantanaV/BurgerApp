@@ -13,7 +13,7 @@ const ProductItem = ({ product, handleDelete, handleOpen }: any) => {
                 <p>{`$ ${price}`}</p>
             </Panel>
             <ButtonToolbar>
-                <Button color="red" appearance="primary" onClick={() => handleDelete(product.id)} >Delete</Button>
+                <Button color="red" appearance="primary" onClick={() => handleDelete(product._id)} >Delete</Button>
                 <Button color="cyan" appearance="primary" onClick={() => handleOpen(product)} >Edit</Button>
             </ButtonToolbar>
         </Panel>

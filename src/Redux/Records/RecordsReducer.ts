@@ -1,9 +1,23 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { Order } from "../../App/entity";
-import { getAllRecords } from "../../Utiles/Request";
+import { Record } from "../../App/entity";
+import { deleteRecord, getAllRecords, patchRecord, postRecord } from "../../Utiles/Request";
 
 export const initRecords = createAsyncThunk ('initRecordAction', async () =>{
-    const records: Partial<Order[]> = await getAllRecords()
+    const records: Record[] = await getAllRecords()
     return records
 })
 
+export const createRecord = createAsyncThunk ('createRecord', async (record: Partial<Record>, thunkAPI) => {
+    await postRecord(record)
+    thunkAPI.dispatch(initRecords())
+})
+
+export const editRecord = createAsyncThunk ('editProduct', async(record: Partial<Record>, thunkAPI) => {
+    await patchRecord(record)
+    thunkAPI.dispatch(initRecords())
+})
+
+export const eraseRecord = createAsyncThunk ('eraseProduct', async (id: string, thunkAPI) => {
+    await deleteRecord(id)
+    thunkAPI.dispatch(initRecords())
+})

@@ -16,12 +16,13 @@ export const productSlice = createSlice({
     name: 'products',
     initialState,
     reducers:{
-        /* addProduct: (state:ProductsState, action: { payload: any; })=>{
+        addProduct: (state:ProductsState, action: { payload: any; })=>{
             state.products.push(action.payload)
         },
+        
         editProduct:(state:ProductsState, action: { payload: Partial<Product> }) => {
             const {_id, name, price} = action.payload
-            const foundProduct = state.products.find((product: Product) => product._id === _id)
+            const foundProduct: any = state.products.find((product: Product) => product._id === _id)
             if(foundProduct){
                 foundProduct.name = name
                 foundProduct.price = price
@@ -30,9 +31,9 @@ export const productSlice = createSlice({
         deleteProduct: (state:ProductsState,action: { payload: any; }) =>{
             const productFound = state.products.find((product: Product) => product._id === action.payload)
             if(productFound){
-                state.splice(state.products.indexOf(productFound),1)
+                state.products.splice(state.products.indexOf(productFound),1)
             }
-        }, */
+        },
         incrementCount: (state:ProductsState,action: { payload: any; }) =>{
             const foundProduct = state.products.find((product: Product) => product._id === action.payload)
             if(foundProduct){
@@ -65,5 +66,5 @@ export const productSlice = createSlice({
     },
 })
 
-export const { /* addProduct, deleteProduct, editProduct, */ incrementCount, decrementCount, clearRequestOrder } = productSlice.actions
+export const { addProduct, deleteProduct, editProduct, incrementCount, decrementCount, clearRequestOrder } = productSlice.actions
 export default productSlice.reducer

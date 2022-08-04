@@ -1,57 +1,76 @@
 import { useEffect } from 'react'
-import { FlexboxGrid, Grid } from 'rsuite'
+import { Button, ButtonToolbar, FlexboxGrid, Grid } from 'rsuite'
 import { Table, Column, HeaderCell, Cell } from 'rsuite-table'
+
 import { useAppDispatch, useAppSelector } from '../../App/hooks'
-import { initRecords } from '../../Redux/Records/RecordsReducer'
+import { eraseRecord, initRecords } from '../../Redux/Records/RecordsReducer'
 
 
 const OrderRecordsItem = () => {
 
-const records = useAppSelector(({records})=> records.records)
+const records = useAppSelector(({records})=> records.records) 
 const dispatch = useAppDispatch()
+
+const ButtonCell = ({ rowData, dataKey, ...props }:any) => (
+  <Cell {...props}><Button  style={{verticalAlign: "super" }} appearance="link"  onClick={() => deleteRecord(rowData._id)}>Delete</Button></Cell>
+);
 
 useEffect(()=>{
   dispatch(initRecords())
-  console.log(records)
 },[])
 
+ 
+const deleteRecord =  (id: string) =>{
+  dispatch(eraseRecord(id))
+}
 
   return (
-    <Grid className="show-grid">
+    <Grid>
     <Table
-      style={{marginTop:20, marginBottom: 50}}
-      height={600}
-      data={records}
-      onRowClick={records => {
-        console.log(records);
-      }}
-    >
-      <Column width={300} align="center" >
-        <HeaderCell>Id</HeaderCell>
-        <Cell dataKey="_id" />
-      </Column>
+    style={{marginTop: 50}}
+    height={420}
+    data={records}
+    bordered
+    autoHeight
+    affixHeader
+    affixHorizontalScrollbar
+    cellBordered
+    onSortColumn={(sortColumn, sortType) => {
+      console.log(sortColumn, sortType);
+    }}
+  >
+    <Column flexGrow={1} >
+      <HeaderCell>
+        Date
+      </HeaderCell>
+      <Cell dataKey="date" />
+    </Column>
 
-      <Column width={90} >
-        <HeaderCell>Date</HeaderCell>
-        <Cell dataKey="Date" />
-      </Column>
+    <Column flexGrow={1} >
+      <HeaderCell>
+        Products Ordered
+      </HeaderCell>
+      <Cell dataKey="ordersRecorded" />
+    </Column>
 
-      <Column width={680}>
-        <HeaderCell>Products</HeaderCell>
-        <Cell dataKey="ordersRecorded" />
-      </Column>
+    <Column width={100} resizable>
+      <HeaderCell>Price</HeaderCell>
+      <Cell dataKey="price" />
+    </Column>
 
-      <Column width={100}>
-        <HeaderCell>Price</HeaderCell>
-        <Cell dataKey="price" />
-      </Column>
+    <Column width={100}  >
+    <HeaderCell>
+        Delete
+      </HeaderCell >
+      
+      <ButtonCell dataKey="_id" style={{verticalAlign: "top", marginTop: -7 }} / >
+         
 
-    </Table>
-    <FlexboxGrid justify="end" style={{marginBottom:50}}>
-    <h5>{`Total: ${records.map(item => item.price).reduce((acc: number,current: number) => acc + current,0)}`}</h5>
-    </FlexboxGrid>
-    </Grid>
+      
+    </Column>
 
+  </Table>
+  </Grid>
   )
 }
 

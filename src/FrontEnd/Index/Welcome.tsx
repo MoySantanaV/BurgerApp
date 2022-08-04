@@ -1,27 +1,32 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useAppSelector, useAppDispatch } from '../../App/hooks'
-import { Button, ButtonToolbar, FlexboxGrid, Form, Grid, Panel } from 'rsuite'
+import { Button, ButtonToolbar, FlexboxGrid, Form, Grid, Message, Panel } from 'rsuite'
 import { incrementCount, decrementCount, clearRequestOrder } from '../../Redux/Products/Products';
 import { CurrentOrderList } from '../CurrentOrder/CurrentOrderList';
-import { addOrder } from '../../Redux/Orders/Orders';
 import FormControl from 'rsuite/esm/FormControl';
-import { v4 as uuid } from 'uuid';
 import { OrderRecordsList } from '../OrderRecords/OrderRecordsList';
 import { Product } from '../../App/entity';
-
+import { createOrder, initOrders } from '../../Redux/Orders/OrdersReducer';
+import { initProducts } from '../../Redux/Products/ProductReducer';
+import {toast} from 'react-toastify'
 
 const Welcome = () => {
   const [newOrder, setNewOrder] = useState<any>({ clientName: "" })
   const products: Product[] = useAppSelector(({products}) => products.products)
   const dispatch = useAppDispatch()
 
+  useEffect(()=>{
+    dispatch(initProducts())
+    dispatch(initOrders())
+  },[])
+
   const handleChange = (value: Record<string, { clientName: string }>) => {
     setNewOrder(value)
-
   }
 
   const onClear = () => {
     dispatch(clearRequestOrder())
+    toast.success("Form has been cleaned",{theme:"colored"})
     setNewOrder({ clientName: "" })
   }
 
@@ -32,10 +37,12 @@ const Welcome = () => {
   }
 
   const handleSubmit = () => {
-    if(Object.keys(newOrder).length <= 0)return
-    if(!isValidCount(products))return
-    dispatch(addOrder({
-      idOrder: uuid(),
+    if(Object.keys(newOrder).length <= 0)return 
+/*     if(Object.keys(newOrder.clientName)) return toast.info("Add client's name",{theme: 'colored'})
+ */    if(!isValidCount(products))return toast.info('Add at least one product',{theme: 'colored'})
+
+    dispatch(createOrder({
+      
       productsOrdered: products,
       clientName: newOrder.clientName,
       isComplete: false
@@ -43,7 +50,6 @@ const Welcome = () => {
     }))
     dispatch(clearRequestOrder())
     setNewOrder({ clientName: "" })
-
   }
 
   return (
@@ -54,7 +60,7 @@ const Welcome = () => {
         <Form formValue={newOrder} onChange={(clientName: Record<string, { clientName: string }>) => handleChange(clientName)}>
           <FlexboxGrid>
             <Form.Group controlId="clientName">
-              <FormControl style={{ width: 1000, marginTop: 50 }} name="clientName" type="text" placeholder="Order For" />
+              <FormControl style={{ width: 1000, marginTop: 25 }} name="clientName" type="text" placeholder="Order For" />
             </Form.Group>
           </FlexboxGrid>
         </Form>
