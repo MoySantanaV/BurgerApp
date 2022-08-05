@@ -5,16 +5,17 @@ import { useAppSelector, useAppDispatch } from '../../App/hooks'
 import { ProductItem } from './ProductItem';
 import { createProduct, initProducts, editProduct, eraseProduct } from '../../Redux/Products/ProductReducer';
 import {toast} from 'react-toastify'
+import { refType } from 'rsuite/esm/utils/propTypeChecker';
 
 const { StringType, NumberType } = Schema.Types;
   
 const model = Schema.Model({
-  name: StringType().isRequired('This field is required.'),
-  price: NumberType("Must be numbers").isRequired('This field is required.')
+  name: StringType().isRequired('Name is required.'),
+  price: NumberType("Must be numbers").isRequired('Price is required.').min(1,"Price should be more than $1")
 });
 
 function TextField(props:any) {
-  const { name, label, accepter, ...rest } = props;
+  const { name, label } = props;
   return (
     <Form.Group controlId={`${name}-3`}>
       <Form.ControlLabel>{label} </Form.ControlLabel>
@@ -23,7 +24,7 @@ function TextField(props:any) {
   );
 }
 
-const PorductList = ({ children }: any) => {
+const ProductList = () => {
 
   const products: Product[] = useAppSelector(({ products }) => products.products)
   const [newProduct, setNewProduct] = useState<Partial<Product>>({ name: "", price: 0 })
@@ -34,55 +35,51 @@ const PorductList = ({ children }: any) => {
     dispatch(initProducts())
   }, [])
 
-  const handleOpen = (product?: Product) => {
+  const openModal = (product?: Product) => {
     if (product) {
       setNewProduct(product)
     }
     setOpen(true);
   }
 
-  const handleClose = () => {
+  const closeModal = () => {
     setOpen(false)
     setNewProduct({})
   };
 
-  const handleChange = (value: Partial<Product>): void => {
+  const onChangeProduct = (value: Partial<Product>): void => {
     
     setNewProduct({
       ...newProduct,
       ...value
     })
-
   }
 
-  const handleSubmit = (id?: string): void => {
-    if (Object.keys(newProduct).length <= 0) return
+  const onSubmitProduct = (id?: string): void => {
+    console.log(!newProduct.price)
+    if((!newProduct.name || !newProduct.price) && (!!newProduct.name || !!newProduct.price)){return}
+    if (Object.keys(newProduct).length < 2 ) {return}
+
+
     if (id) {
       dispatch(editProduct(newProduct))
-      toast.success('Product has been succesfully', {theme:'colored'})
+      toast.success('Product edited', {theme:'colored'})
 
     } else {
       dispatch(createProduct({
         ...newProduct,
         count: 0
       }))
-      toast.success('Product has been created succesfully', {theme:'colored'})
+      toast.success('Product created', {theme:'colored'})
     }
-    dispatch(initProducts())
     setNewProduct({})
     setOpen(false)
   }
 
-  const handleDelete = async (id: string) => {
-   await dispatch(eraseProduct(id))
-    dispatch(initProducts())
-    toast.success('Product has been deleted succesfully', {theme:'colored'})
+  const onDeleteProduct = (id: string) => {
+    dispatch(eraseProduct(id))
+    toast.success('Product deleted', {theme:'colored'})
   }
-
-  
-
-
-
 
 return (
   <Grid >
@@ -91,7 +88,7 @@ return (
       <FlexboxGrid >
         {products && products.map((product) => (
           <div className='' key={product._id}>
-            <ProductItem key={product._id} product={product} handleDelete={handleDelete} handleOpen={handleOpen} />
+            <ProductItem key={product._id} product={product} onDeleteProduct={onDeleteProduct} openModal={openModal} />
           </div>
         ))}
       </FlexboxGrid>
@@ -99,40 +96,34 @@ return (
 
     <FlexboxGrid justify="end" style={{ marginTop: 20 }}>
       <ButtonToolbar  >
-        <Button color="orange" appearance="primary" onClick={() => handleOpen()}>Add New Product</Button>
+        <Button color="orange" appearance="primary" onClick={() => openModal()}>Add New Product</Button>
       </ButtonToolbar>
     </FlexboxGrid>
 
     <div className="modal-container">
-      <Modal backdrop={'static'} open={open} onClose={handleClose}>
+      <Modal backdrop={'static'} open={open} onClose={closeModal}>
         <Modal.Header>
           <Modal.Title>{!newProduct._id ? 'Adding New Product' : "Editing Product"}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form model={model} onChange={handleChange} formValue={newProduct}>
+          <Form model={model} onChange={onChangeProduct} formValue={newProduct}>
             <TextField name="name" label="Product Name" />
             <TextField name="price" label="Product Price" type="number" min={0}/>
             <Form.Group>
               <ButtonToolbar>
-                <Button color="orange" appearance="primary" type="submit" onClick={() => handleSubmit(newProduct._id)}>Submit</Button>
-                <Button color="orange" appearance="default" onClick={handleClose}>Cancel</Button>
+                <Button color="orange" appearance="primary" type="submit" onClick={() => onSubmitProduct(newProduct._id)}>Submit</Button>
+                <Button color="orange" appearance="default" onClick={closeModal}>Cancel</Button>
               </ButtonToolbar>
             </Form.Group>
           </Form>
-
-
         </Modal.Body>
       </Modal>
     </div>
   </Grid>
-
-
-
 );
-
 }
 
-export { PorductList }
+export { ProductList }
 
 
 

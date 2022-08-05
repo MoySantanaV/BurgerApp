@@ -1,11 +1,7 @@
 import axios, { AxiosResponse } from 'axios'
 import { Order, Product, Record } from '../App/entity'
-
-
 const url = 'http://localhost:4000/api'
 
-
-// GET
 export const getAllProducts = async () => {
      const { data }: AxiosResponse = await axios({
         url: `${url}/getAllProducts`,
@@ -19,8 +15,8 @@ export const getAllOrders = async () => {
     const { data }: AxiosResponse = await axios({
         url: `${url}/getAllOrders`,
         method: 'GET'
+        
     })
-
     return data
 }
 
@@ -30,7 +26,6 @@ export const getAllRecords = async () => {
         method: 'GET'
     })
 
-
     const mapper = (data: any) => {
        return data.map((order:any)=> {
               const ordersRecorded = order.ordersRecorded.join(", ")
@@ -39,17 +34,11 @@ export const getAllRecords = async () => {
                 ordersRecorded
               } 
         })
-/*         const orderRecorded = data?.ordersRecorded.map((item: any) => item.name);
-        return {
-            ...data,
-            orderRecorded
-        } */
     }
     
     return mapper(data)
 }
 
-// POST
 export const postProduct = async (product: Partial<Product>) => {
     const { data }: AxiosResponse = await axios({
         url: `${url}/postProduct`,
@@ -75,7 +64,6 @@ export const postRecord = async (record: Partial<Record>) => {
     })
 }
 
-// patch
 export const patchProduct = async (product: Partial<Product>) => {
     const { data }: AxiosResponse = await axios({
         url: `${url}/updateProduct/${product._id}`,
@@ -103,7 +91,6 @@ export const patchRecord = async (record: Partial<Record>) => {
 
 }
 
-//delete
 export const deleteProduct = async (id: string) => {
     const { data }: AxiosResponse = await axios({
         url: `${url}/deleteProduct/${id}`,

@@ -16,7 +16,7 @@ export const productSlice = createSlice({
     name: 'products',
     initialState,
     reducers:{
-        addProduct: (state:ProductsState, action: { payload: any; })=>{
+/*         addProduct: (state:ProductsState, action: { payload: any; })=>{
             state.products.push(action.payload)
         },
         
@@ -28,12 +28,12 @@ export const productSlice = createSlice({
                 foundProduct.price = price
             }
         },
-        deleteProduct: (state:ProductsState,action: { payload: any; }) =>{
+        deleteProduct: (state:ProductsState,action: { payload: Partial<Product> }) =>{
             const productFound = state.products.find((product: Product) => product._id === action.payload)
             if(productFound){
                 state.products.splice(state.products.indexOf(productFound),1)
             }
-        },
+        }, */
         incrementCount: (state:ProductsState,action: { payload: any; }) =>{
             const foundProduct = state.products.find((product: Product) => product._id === action.payload)
             if(foundProduct){
@@ -60,11 +60,10 @@ export const productSlice = createSlice({
 
     extraReducers: (builder) => {
         builder.addCase(initProducts.fulfilled,(state, action: { payload: any; })=>{
-            
-            state.products = action.payload 
+                state.products = action.payload 
         })
     },
 })
 
-export const { addProduct, deleteProduct, editProduct, incrementCount, decrementCount, clearRequestOrder } = productSlice.actions
+export const { /* addProduct, deleteProduct, editProduct, */ incrementCount, decrementCount, clearRequestOrder } = productSlice.actions
 export default productSlice.reducer
