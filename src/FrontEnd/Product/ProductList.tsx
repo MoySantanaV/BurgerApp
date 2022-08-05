@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react'
-import { Button, ButtonToolbar, FlexboxGrid, Grid, Modal, Form, Schema } from 'rsuite';
+import { createProduct, initProducts, editProduct, eraseProduct } from '../../Redux/Products/ProductReducer';
 import { Product } from '../../App/entity';
 import { useAppSelector, useAppDispatch } from '../../App/hooks'
 import { ProductItem } from './ProductItem';
-import { createProduct, initProducts, editProduct, eraseProduct } from '../../Redux/Products/ProductReducer';
+import { Button, ButtonToolbar, FlexboxGrid, Grid, Modal, Form, Schema } from 'rsuite';
 import {toast} from 'react-toastify'
-import { refType } from 'rsuite/esm/utils/propTypeChecker';
 
 const { StringType, NumberType } = Schema.Types;
   
@@ -56,10 +55,9 @@ const ProductList = () => {
   }
 
   const onSubmitProduct = (id?: string): void => {
-    console.log(!newProduct.price)
     if((!newProduct.name || !newProduct.price) && (!!newProduct.name || !!newProduct.price)){return}
-    if (Object.keys(newProduct).length < 2 ) {return}
-
+    if(Object.keys(newProduct).length < 2 ) {return}
+    if(newProduct.price! <= 0){return}
 
     if (id) {
       dispatch(editProduct(newProduct))
@@ -108,7 +106,7 @@ return (
         <Modal.Body>
           <Form model={model} onChange={onChangeProduct} formValue={newProduct}>
             <TextField name="name" label="Product Name" />
-            <TextField name="price" label="Product Price" type="number" min={0}/>
+            <TextField name="price" label="Product Price" type="number"/>
             <Form.Group>
               <ButtonToolbar>
                 <Button color="orange" appearance="primary" type="submit" onClick={() => onSubmitProduct(newProduct._id)}>Submit</Button>

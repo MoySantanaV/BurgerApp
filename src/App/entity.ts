@@ -12,10 +12,6 @@ export interface Order {
     isComplete: boolean
 }
 
-export interface orderState {
-    orders: Order[]
-}
-
 export interface Record {
     _id: string,
     date: string

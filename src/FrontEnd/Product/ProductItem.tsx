@@ -1,7 +1,6 @@
 import { Panel, Button, ButtonToolbar } from 'rsuite';
 import 'rsuite/dist/rsuite.min.css'
 
-
 const ProductItem = ({ product, onDeleteProduct, openModal }: any) => {
 
     const { name, price } = product;

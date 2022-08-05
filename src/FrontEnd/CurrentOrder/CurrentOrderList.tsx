@@ -4,8 +4,6 @@ import { useAppDispatch, useAppSelector, } from '../../App/hooks'
 import { initOrders } from '../../Redux/Orders/OrdersReducer'
 import { CurrentOrderItem } from './CurrentOrderItem'
 
-
-
 const CurrentOrderList = ({ children }: any) => {
   const orders = useAppSelector(({ orders }) => orders.orders)
   const dispatch = useAppDispatch()

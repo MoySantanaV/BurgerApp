@@ -1,10 +1,10 @@
-import { Panel, ButtonToolbar, Button } from 'rsuite';
-import 'rsuite/dist/rsuite.min.css';
+import { eraseOrder } from '../../Redux/Orders/OrdersReducer';
+import { createRecord } from '../../Redux/Records/RecordsReducer';
 import { Product } from '../../App/entity';
 import { useAppDispatch } from '../../App/hooks';
-import { eraseOrder } from '../../Redux/Orders/OrdersReducer';
 import { toast } from 'react-toastify'
-import { createRecord } from '../../Redux/Records/RecordsReducer';
+import { Panel, ButtonToolbar, Button } from 'rsuite';
+import 'rsuite/dist/rsuite.min.css';
 
 const CurrentOrderItem = ({ order }: any) => {
   const { clientName, productsOrdered } = order;
