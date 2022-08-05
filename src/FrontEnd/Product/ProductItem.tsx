@@ -2,8 +2,7 @@ import { Panel, Button, ButtonToolbar } from 'rsuite';
 import 'rsuite/dist/rsuite.min.css'
 
 
-const ProductItem = ({ product, handleDelete, handleOpen }: any) => {
-
+const ProductItem = ({ product, onDeleteProduct, openModal }: any) => {
 
     const { name, price } = product;
 
@@ -13,8 +12,8 @@ const ProductItem = ({ product, handleDelete, handleOpen }: any) => {
                 <p>{`$ ${price}`}</p>
             </Panel>
             <ButtonToolbar>
-                <Button color="red" appearance="primary" onClick={() => handleDelete(product._id)} >Delete</Button>
-                <Button color="cyan" appearance="primary" onClick={() => handleOpen(product)} >Edit</Button>
+                <Button color="red" appearance="primary" onClick={() => onDeleteProduct(product._id)} >Delete</Button>
+                <Button color="cyan" appearance="primary" onClick={() => openModal(product)} >Edit</Button>
             </ButtonToolbar>
         </Panel>
     )

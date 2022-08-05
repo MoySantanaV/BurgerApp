@@ -3,8 +3,6 @@ export interface Product {
     name: string,
     price: number,
     count: number
-
-
 }
 
 export interface Order {
@@ -12,11 +10,6 @@ export interface Order {
     clientName: string,
     productsOrdered: Product[],
     isComplete: boolean
-}
-
-export interface CurrentOrderState {
-    DoubleBurger: 0,
-    product2: 0,
 }
 
 export interface orderState {
