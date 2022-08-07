@@ -2,11 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 import { Order } from "../../App/entity";
 import { initOrders } from "./OrdersReducer";
 interface OrdersState {
- orders: Order[]
+    orders: Order[]
 }
 
 const initialState: OrdersState = {
-    orders:[]
+    orders: []
 }
 
 export const orderSlice = createSlice({
@@ -14,9 +14,9 @@ export const orderSlice = createSlice({
     initialState,
     reducers: {
 
-    }, extraReducers: (builder) =>{
-        builder.addCase(initOrders.fulfilled,(state, action: { payload: any; })=>{
-            state.orders = action.payload 
+    }, extraReducers: (builder) => {
+        builder.addCase(initOrders.fulfilled, (state, action: { payload: any; }) => {
+            state.orders = action.payload
         })
     }
 })

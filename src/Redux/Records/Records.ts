@@ -16,7 +16,7 @@ export const recordsSlice = createSlice({
 
     },
     extraReducers: (builder) =>{
-        builder.addCase(initRecords.fulfilled,(state, action: { payload: any; })=>{
+        builder.addCase(initRecords.fulfilled,(state, action: { payload: any })=>{
             state.records = action.payload 
         })
     }

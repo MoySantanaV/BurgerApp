@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { incrementCount, decrementCount, clearRequestOrder } from '../../Redux/Products/Products';
-import { createOrder, initOrders } from '../../Redux/Orders/OrdersReducer';
+import { createOrder } from '../../Redux/Orders/OrdersReducer';
 import { initProducts } from '../../Redux/Products/ProductReducer';
 import { CurrentOrderList } from '../CurrentOrder/CurrentOrderList';
 import { OrderRecordsItem } from '../OrderRecords/OrderRecordsItem';
@@ -17,7 +17,6 @@ const Welcome = () => {
 
   useEffect(() => {
     dispatch(initProducts())
-    dispatch(initOrders())
   }, [])
 
   const onChangeValue = (value: Record<string, { clientName: string }>) => {
@@ -37,26 +36,27 @@ const Welcome = () => {
   }
 
   const onCreateOrderSubmit = () => {
-    if (newOrder.clientName === '') return toast.info("Add client's name", { theme: 'colored' })
-    if (!isValidCount(products)) return toast.info('Add at least one product', { theme: 'colored' })
-
+    if(newOrder.clientName === ''){
+      return toast.info("Add client's name", { theme: 'colored' })
+    }
+    if(!isValidCount(products)){
+      return toast.info('Add at least one product', { theme: 'colored' })
+    }
     dispatch(createOrder({
-
       productsOrdered: products,
       clientName: newOrder.clientName,
-      isComplete: false
-
     }))
     toast.success('Order was created', { theme: 'colored' })
+
     dispatch(clearRequestOrder())
     setNewOrder({ clientName: "" })
   }
 
   return (
-    <>
+    <div >
       <h1>Welcome</h1>
       <h4>Burger App</h4>
-      <Grid>
+      <Grid >
         <Form formValue={newOrder} onChange={(clientName: Record<string, { clientName: string }>) => onChangeValue(clientName)}>
           <FlexboxGrid>
             <Form.Group controlId="clientName">
@@ -80,7 +80,7 @@ const Welcome = () => {
             </div>
           ))}
         </FlexboxGrid>
-        <FlexboxGrid justify="end" style={{ marginTop: 20 }}>
+        <FlexboxGrid justify="end" style={{ marginTop: 20, marginBottom: 100 }}>
           <Form.Group>
             <ButtonToolbar>
               <Button color="orange" appearance="primary" onClick={onClear}>Clear</Button>
@@ -88,10 +88,10 @@ const Welcome = () => {
             </ButtonToolbar>
           </Form.Group>
         </FlexboxGrid>
-        <CurrentOrderList style={{ marginBottom: 100 }} />
+        <CurrentOrderList  />
         <OrderRecordsItem />
       </Grid>
-    </>
+    </div>
   )
 }
 

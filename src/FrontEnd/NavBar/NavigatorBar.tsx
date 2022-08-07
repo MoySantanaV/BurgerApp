@@ -25,7 +25,7 @@ const NavigatorBar = ({ onSelect, activeKey }: NavProps) => {
         <Nav.Item  eventKey="3"><Link to="ordersrecords">Order's Records</Link></Nav.Item>
       </Nav>
       <Nav pullRight>
-      <Grid style={{marginTop:18, marginLeft:20}}>
+      <Grid fluid style={{marginTop:18, marginLeft:20}}>
            <Toggle onClick={()=>onClickMode()}/>  Light Mode / Dark Mode
       </Grid>
       </Nav>

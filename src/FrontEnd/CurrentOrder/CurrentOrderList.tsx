@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector, } from '../../App/hooks'
 import { initOrders } from '../../Redux/Orders/OrdersReducer'
 import { CurrentOrderItem } from './CurrentOrderItem'
 
-const CurrentOrderList = ({ children }: any) => {
+const CurrentOrderList = () => {
   const orders = useAppSelector(({ orders }) => orders.orders)
   const dispatch = useAppDispatch()
 
@@ -14,8 +14,8 @@ const CurrentOrderList = ({ children }: any) => {
 
   return (
     <Grid >
-      <div>
-        <h3 style={{ marginTop: 100 }}>Current Order</h3>
+      <div style={{marginBottom: 300}}>
+        <h3 style={{ marginTop: 50}}>Current Order</h3>
         <FlexboxGrid justify="center">
           {orders && orders.map((order) => (
             <div key={order._id}>

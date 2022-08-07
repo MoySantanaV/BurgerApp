@@ -27,7 +27,8 @@ const OrderRecordsItem = () => {
     <Grid className="show-grid">
       <h3 style={{marginTop:50}}>Order Records</h3>
       <Table
-        style={{ marginTop: 50 }}
+        
+        style={{ marginTop: 50, marginBottom:100 }}
         wordWrap="break-word"
         data={records}
         bordered

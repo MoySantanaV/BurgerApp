@@ -61,27 +61,29 @@ const ProductList = () => {
 
     if (id) {
       dispatch(editProduct(newProduct))
-      toast.success('Product edited', {theme:'colored'})
-
+   
     } else {
       dispatch(createProduct({
         ...newProduct,
         count: 0
       }))
-      toast.success('Product created', {theme:'colored'})
+      
     }
-    setNewProduct({})
+    setTimeout(() => {
+      setNewProduct({})
+    }, 2000);
+    
     setOpen(false)
   }
 
   const onDeleteProduct = (id: string) => {
     dispatch(eraseProduct(id))
-    toast.success('Product deleted', {theme:'colored'})
+    
   }
 
 return (
   <Grid >
-    <div>
+    <div >
       <h3>Products Manager</h3>
       <FlexboxGrid >
         {products && products.map((product) => (
@@ -105,7 +107,7 @@ return (
         </Modal.Header>
         <Modal.Body>
           <Form model={model} onChange={onChangeProduct} formValue={newProduct}>
-            <TextField name="name" label="Product Name" />
+            <TextField placement="right" name="name" label="Product Name" />
             <TextField name="price" label="Product Price" type="number"/>
             <Form.Group>
               <ButtonToolbar>
