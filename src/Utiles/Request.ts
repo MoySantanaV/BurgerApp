@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { Order, Product, Record } from "../App/entity";
-const url = "http://localhost:4000/api";
+const url = "https://burgerapp-api.vercel.app/api";
 
 export const getAllProducts = async () => {
   const { data }: AxiosResponse = await axios({
